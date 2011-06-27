@@ -27,6 +27,7 @@ define postgresql::cluster (
       }
 
       exec {"pg_createcluster --start -e $encoding -u $uid -g $gid -d ${data_dir}/${version}/${clustername} $version $clustername":
+        path    => "/bin:/usr/bin",
         unless  => "pg_lsclusters -h | awk '{ print \$1,\$2; }' | egrep '^${version} ${clustername}\$'",
         require => File[$data_dir],
       }
@@ -35,6 +36,7 @@ define postgresql::cluster (
 
     absent: {
       exec {"pg_dropcluster --stop $version $clustername":
+        path    => "/bin:/usr/bin",
         onlyif  => "pg_lsclusters -h | awk '{ print \$1,\$2,\$6; }' | egrep '^${version} ${clustername} ${data_dir}/${version}/${clustername}\$'",
         require => Service["postgresql"],
       }

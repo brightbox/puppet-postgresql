@@ -27,6 +27,7 @@ class postgresql::base {
     mode   => 0644,
     owner  => "root",
     source => "puppet:///postgresql/pg_hba.aug",
+    require => File["/usr/share/augeas/lenses/contrib"]
   }
 
 }
