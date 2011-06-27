@@ -58,6 +58,12 @@ class postgresql::v9-0 {
         default:  { fail "postgresql 9.0 not available for ${operatingsystem}/${lsbdistcodename}"}
       }
     }
+    Ubuntu: {
+      case $lsbdistcodename {
+        lucid, maverick, natty : { include postgresql::ubuntu::v9-0 }
+        default:  { fail "postgresql 9.0 not available for ${operatingsystem}/${lsbdistcodename}"}
+      }
+    }
     default: { notice "Unsupported operatingsystem ${operatingsystem}" }
   }
 }
